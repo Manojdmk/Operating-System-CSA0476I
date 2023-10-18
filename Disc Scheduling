@@ -1,0 +1,32 @@
+#include<stdio.h>
+#include<stdlib.h>
+
+
+int calculateSeekTime(int initial_position, int requests[], int n) {
+    int seek_time = 0;
+    for (int i = 0; i < n; i++) {
+        seek_time += abs(initial_position - requests[i]);
+        initial_position = requests[i];
+    }
+    return seek_time;
+}
+
+int main() {
+    int n;
+    printf("Enter the number of disk requests: ");
+    scanf("%d", &n);
+    int requests[n];
+    printf("Enter the disk requests: ");
+    for (int i = 0; i < n; i++) {
+        scanf("%d", &requests[i]);
+    }
+    int initial_position;
+    printf("Enter the initial head position: ");
+    scanf("%d", &initial_position);
+
+  
+    int seek_time = calculateSeekTime(initial_position, requests, n);
+    printf("Total seek time: %d\n", seek_time);
+
+    return 0;
+}
