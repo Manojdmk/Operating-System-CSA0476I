@@ -1,0 +1,38 @@
+#include <stdio.h>
+#include <sys/stat.h>
+#include <errno.h>
+
+#ifndef S_IROTH
+#define S_IROTH 00004
+#endif
+
+int main() {
+    char *filename = "example.txt";
+
+    // Read the current permissions
+    struct stat fileStat;
+    if (stat(filename, &fileStat) < 0) {
+        perror("Error in getting file status");
+        return 1;
+    }
+
+    
+    printf("Current permissions for %s are %o\n", filename, fileStat.st_mode & 0777);
+
+   
+    if (chmod(filename, S_IRUSR | S_IWUSR | S_IROTH) < 0) {
+        perror("Error in changing file permissions");
+        return 1;
+    }
+
+  
+    if (stat(filename, &fileStat) < 0) {
+        perror("Error in getting file status");
+        return 1;
+    }
+
+   
+    printf("Updated permissions for %s are %o\n", filename, fileStat.st_mode & 0777);
+
+    return 0;
+}
